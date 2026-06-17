@@ -1,0 +1,104 @@
+<html>
+<head>
+    <title>Cart - Table {{ table_id }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fff8f0; }
+        
+        .header { 
+            background: linear-gradient(135deg, #ff6b35, #f7931e); 
+            color: white; padding: 20px; text-align: center; 
+        }
+        .header h1 { font-size: 28px; }
+        
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        
+        .cart-item {
+            background: white; margin: 12px 0; padding: 15px; border-radius: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .item-name { font-size: 18px; font-weight: 600; color: #333; }
+        .item-qty { color: #666; font-size: 14px; }
+        .item-price { color: #ff6b35; font-weight: bold; font-size: 16px; }
+        
+        .empty-cart {
+            text-align: center; padding: 60px 20px; color: #999;
+        }
+        .empty-cart div { font-size: 60px; margin-bottom: 20px; }
+        
+        .total-box {
+            background: white; margin: 20px 0; padding: 20px; border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .total-row {
+            display: flex; justify-content: space-between; 
+            font-size: 22px; font-weight: bold; color: #333;
+        }
+        
+        .btn-group {
+            display: flex; gap: 10px; margin-top: 20px; flex-direction: column;
+        }
+        .btn {
+            padding: 15px; border: none; border-radius: 10px; 
+            font-size: 18px; font-weight: bold; text-decoration: none;
+            text-align: center; cursor: pointer;
+        }
+        .order-btn { background: #28a745; color: white; }
+        .back-btn { background: #6c757d; color: white; }
+        .pdf-btn { background: #dc3545; color: white; }
+        
+        @media print {
+            .btn-group, .header { display: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛒 Your Cart</h1>
+        <p>Table {{ table_id }}</p>
+    </div>
+
+    <div class="container">
+        {% if cart_items %}
+            <!-- Cart Items List -->
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div>
+                    <div class="item-name">{{ item.name }}</div>
+                    <div class="item-qty">Qty: {{ item.qty }} × ₹{{ item.price }}</div>
+                </div>
+                <div class="item-price">₹{{ item.total }}</div>
+            </div>
+            {% endfor %}
+
+            <!-- Total -->
+            <div class="total-box">
+                <div class="total-row">
+                    <span>Total Amount:</span>
+                    <span>₹{{ total }}</span>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-group">
+                <a href="/place_order" class="btn order-btn">✅ Place Order</a>
+                <a href="javascript:window.print()" class="btn pdf-btn"> Download Bill PDF</a>
+                <a href="/menu/{{ table_id }}" class="btn back-btn">← Back to Menu</a>
+            </div>
+        {% else %}
+            <!-- Empty Cart -->
+            <div class="empty-cart">
+                <div>🛒</div>
+                <h2>Cart Empty Aahe</h2>
+                <p>Menu madhun items add kara</p>
+            </div>
+            <div class="btn-group">
+                <a href="/menu/{{ table_id }}" class="btn back-btn">← Back to Menu</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

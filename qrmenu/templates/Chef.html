@@ -1,0 +1,97 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3">
+    <title>Chef Dashboard</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            background:#f5f5f5; 
+            margin:0; 
+            padding:0; 
+        }
+        .header { 
+            background:#ff5722; 
+            color:white; 
+            padding:20px; 
+            text-align:center; 
+        }
+        .container { 
+            padding:20px; 
+            max-width:900px; 
+            margin:auto; 
+        }
+        .table-box { 
+            background:white; 
+            border-left:6px solid #ff5722; 
+            padding:20px; 
+            margin:15px 0; 
+            border-radius:8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .table-box h2 {
+            margin-top: 0;
+            color: #ff5722;
+        }
+        .order-box { 
+            background:#fafafa; 
+            padding:15px; 
+            margin:10px 0; 
+            border-radius:5px; 
+            border: 1px solid #eee;
+        }
+        .order-box h4 {
+            margin: 0 0 10px 0;
+            color: #666;
+        }
+        .item { 
+            padding:8px 0; 
+            border-bottom:1px dashed #eee; 
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        .total {
+            text-align:right; 
+            color:#4CAF50; 
+            margin-top: 10px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>‍ Chef Dashboard</h1>
+    </div>
+    
+    <div class="container">
+    {% if orders %}
+        {% for table_id, table_orders in orders.items() %}
+        <div class="table-box">
+            <h2>Table {{ table_id }}</h2>
+            
+            {% for order in table_orders %}
+            <div class="order-box">
+                <h4>Time: {{ order.get('time', 'N/A') }}</h4>
+                <hr>
+                {% for item in order.get('items', []) %}
+                <div class="item">
+                    {{ item.get('icon','') }} <b>{{ item.get('name','') }}</b> x {{ item.get('qty',0) }} 
+                    <span style="float:right;">₹{{ item.get('price',0) * item.get('qty',0) }}</span>
+                </div>
+                {% endfor %}
+                <h3 class="total">Total: ₹{{ order.get('total',0) }}</h3>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <h2 style="text-align:center; color:#666; margin-top:50px;">Aata paryant order nahi</h2>
+    {% endif %}
+    </div>
+</body>
+</html>
