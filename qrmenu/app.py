@@ -9,7 +9,7 @@ app.secret_key = 'hotel-secret-123'  # must aahe
 
 ALL_ORDERS = {}
 
-   MENU_ITEMS = [
+MENU_ITEMS = [
     {'id': 1, 'name': 'Vadapav', 'price': 20, 'category': 'veg', 'icon': '🍔'},
     {'id': 2, 'name': 'Misal Pav', 'price': 50, 'category': 'veg', 'icon': '🍛'},
     {'id': 3, 'name': 'Paneer Tikka', 'price': 120, 'category': 'veg', 'icon': '🧀'},
