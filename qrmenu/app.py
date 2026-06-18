@@ -18,7 +18,6 @@ ALL_ORDERS = {}
     {'id': 6, 'name': 'Margherita Pizza', 'price': 299, 'category': 'veg', 'icon': '🍕'},
     {'id': 7, 'name': 'Masala Dosa', 'price': 140, 'category': 'veg', 'icon': '🥞'},
     {'id': 8, 'name': 'Veg Thali', 'price': 250, 'category': 'veg', 'icon': '🍽️'},
-
     {'id': 9, 'name': 'Chicken Biryani', 'price': 150, 'category': 'non-veg', 'icon': '🍗'},
     {'id': 10, 'name': 'Mutton Curry', 'price': 200, 'category': 'non-veg', 'icon': '🥩'},
     {'id': 11, 'name': 'Egg Roll', 'price': 60, 'category': 'non-veg', 'icon': '🌯'},
