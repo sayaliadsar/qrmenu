@@ -23,6 +23,8 @@ MENU_ITEMS = [
     {'id': 12, 'name': 'Egg Roll', 'price': 60, 'category': 'non-veg', 'icon': ''},
     {'id': 13, 'name': 'Fish Fry', 'price': 180, 'category': 'non-veg', 'icon': ''},
     {'id': 14, 'name': 'Chicken 65', 'price': 130, 'category': 'non-veg', 'icon': ''},
+    {'id': 15, 'name': 'Prawn Curry', 'price': 380, 'category': 'non-veg', 'icon': '🦐'},
+    {'id': 16, 'name': 'Chicken Tandoori', 'price': 350, 'category': 'non-veg', 'icon': '🍖'},
 ]
 
 def generate_qr_base64(data):
