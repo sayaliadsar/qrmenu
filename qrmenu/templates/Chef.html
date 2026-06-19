@@ -85,6 +85,17 @@
                 </div>
                 {% endfor %}
                 <h3 class="total">Total: ₹{{ order.get('total',0) }}</h3>
+                <form action="/complete_order/{{ table_id }}/{{ loop.index0 }}" method="post">
+    <button style="
+        background:green;
+        color:white;
+        border:none;
+        padding:10px 15px;
+        border-radius:5px;
+        cursor:pointer;
+        margin-top:10px;">
+        ✅ Order Complete
+    </button>
             </div>
             {% endfor %}
         </div>
