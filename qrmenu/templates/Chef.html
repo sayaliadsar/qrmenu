@@ -75,7 +75,6 @@
             <h2>Table {{ table_id }}</h2>
             
             {% for order in table_orders %}
-            {% set order_index = loop.index0 %}
             <div class="order-box">
                 <h4>Time: {{ order.get('time', 'N/A') }}</h4>
                 <hr>
