@@ -123,6 +123,7 @@ def chef():
         return redirect('/admin')
 
     return render_template('chef.html', orders=ALL_ORDERS)
+
 # Admin Login Page
 @app.route('/admin')
 def admin():
