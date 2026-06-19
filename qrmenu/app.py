@@ -119,9 +119,7 @@ def place_order():
 # Chef Dashboard
 @app.route('/chef')
 def chef():
-    if not session.get('admin'):
-        return redirect('/admin')
-
+    return "Chef Working"
     return render_template('chef.html', orders=ALL_ORDERS)
 
 
