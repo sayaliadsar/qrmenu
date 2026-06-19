@@ -120,27 +120,58 @@ def place_order():
     session.modified = True
     return render_template('order_success.html', table_id=table_id, total=total)
 
-@app.route('/chef')
-def chef():
+ @app.route('/chef')
+ def chef():
+    if not session.get('admin'):
+        return redirect('/admin')
+
     return render_template('chef.html', orders=ALL_ORDERS)
-@app.route('/cancel_item/<int:item_id>')
-def cancel_item(item_id):
 
-    cart = session.get('cart', {})
-    print("Item ID:", item_id)
-    print("Cart Before:", cart)
 
-    item_id_str = str(item_id)
+# Admin Login Page
+@app.route('/admin')
+def admin():
+    return render_template('admin_login.html')
 
-    if item_id_str in cart:
-        del cart[item_id_str]
 
-    session['cart'] = cart
-    session.modified = True
+# Admin Login Check
+@app.route('/admin_login', methods=['POST'])
+def admin_login():
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-    print("Cart After:", cart)
+    if username == "admin" and password == "1234":
+        session['admin'] = True
+        return redirect('/chef')
 
-    return redirect('/cart')
+    return """
+    <h2>Wrong Username or Password</h2>
+    <a href='/admin'>Try Again</a>
+    """
+
+
+# Logout
+@app.route('/logout')
+def logout():
+    session.pop('admin', None)
+    return redirect('/admin')
+
+
+# Complete Order
+@app.route('/complete_order/<int:table_id>/<int:order_index>', methods=['POST'])
+def complete_order(table_id, order_index):
+
+    global ALL_ORDERS
+
+    if table_id in ALL_ORDERS:
+        if 0 <= order_index < len(ALL_ORDERS[table_id]):
+            ALL_ORDERS[table_id].pop(order_index)
+
+        if len(ALL_ORDERS[table_id]) == 0:
+            del ALL_ORDERS[table_id]
+
+    return redirect('/chef')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5000, use_reloader=False)
