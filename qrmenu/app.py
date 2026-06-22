@@ -15,11 +15,22 @@ MENU_ITEMS = [
     {'id': 3, 'name': 'Paneer Tikka', 'price': 120, 'category': 'veg', 'icon': '🧀'},
     {'id': 4, 'name': 'Veg Biryani', 'price': 100, 'category': 'veg', 'icon': ''},
     {'id': 5, 'name': 'Samosa', 'price': 15, 'category': 'veg', 'icon': '🥟'},
-    {'id': 6, 'name': 'Chicken Biryani', 'price': 150, 'category': 'non-veg', 'icon': ''},
-    {'id': 7, 'name': 'Mutton Curry', 'price': 200, 'category': 'non-veg', 'icon': ''},
-    {'id': 8, 'name': 'Egg Roll', 'price': 60, 'category': 'non-veg', 'icon': ''},
-    {'id': 9, 'name': 'Fish Fry', 'price': 180, 'category': 'non-veg', 'icon': ''},
-    {'id': 10, 'name': 'Chicken 65', 'price': 130, 'category': 'non-veg', 'icon': ''},
+    {'id': 6, 'name': 'Masala Dosa', 'price': 140, 'category': 'veg', 'icon': '🥞'},
+    {'id': 7, 'name': 'Pav Bhaji', 'price': 90, 'category': 'veg', 'icon': '🍛'},
+    {'id': 8, 'name': 'Veg Thali', 'price': 250, 'category': 'veg', 'icon': '🍽️'},
+    {'id': 9, 'name': 'Chole Bhature', 'price': 120, 'category': 'veg', 'icon': '🥘'},
+    {'id': 10, 'name': 'Pani Puri', 'price': 40, 'category': 'veg', 'icon': '🫓'}
+    
+    {'id': 11, 'name': 'Chicken Biryani', 'price': 150, 'category': 'non-veg', 'icon': ''},
+    {'id': 12, 'name': 'Mutton Curry', 'price': 200, 'category': 'non-veg', 'icon': ''},
+    {'id': 13, 'name': 'Egg Roll', 'price': 60, 'category': 'non-veg', 'icon': ''},
+    {'id': 14 'name': 'Fish Fry', 'price': 180, 'category': 'non-veg', 'icon': ''},
+    {'id': 15, 'name': 'Chicken 65', 'price': 130, 'category': 'non-veg', 'icon': ''},
+    {'id': 16, 'name': 'Butter Chicken', 'price': 220, 'category': 'non-veg', 'icon': '🥘'},
+    {'id': 17, 'name': 'Chicken Tandoori', 'price': 280, 'category': 'non-veg', 'icon': '🍗'},
+    {'id': 18, 'name': 'Chicken Handi', 'price': 240, 'category': 'non-veg', 'icon': '🍲'},
+    {'id': 19, 'name': 'Chicken Kolhapuri', 'price': 260, 'category': 'non-veg', 'icon': '🌶️'},
+    {'id': 20, 'name': 'Mutton Rogan Josh', 'price': 320, 'category': 'non-veg', 'icon': '🥩'},
 ]
 
 def generate_qr_base64(data):
