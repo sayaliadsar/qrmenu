@@ -19,7 +19,7 @@ MENU_ITEMS = [
     {'id': 7, 'name': 'Pav Bhaji', 'price': 90, 'category': 'veg', 'icon': '🍛'},
     {'id': 8, 'name': 'Veg Thali', 'price': 250, 'category': 'veg', 'icon': '🍽️'},
     {'id': 9, 'name': 'Chole Bhature', 'price': 120, 'category': 'veg', 'icon': '🥘'},
-    {'id': 10, 'name': 'Pani Puri', 'price': 40, 'category': 'veg', 'icon': '🫓'}
+    {'id': 10, 'name': 'Pani Puri', 'price': 40, 'category': 'veg', 'icon': '🫓'},
     
     {'id': 11, 'name': 'Chicken Biryani', 'price': 150, 'category': 'non-veg', 'icon': ''},
     {'id': 12, 'name': 'Mutton Curry', 'price': 200, 'category': 'non-veg', 'icon': ''},
