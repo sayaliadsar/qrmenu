@@ -24,7 +24,7 @@ MENU_ITEMS = [
     {'id': 11, 'name': 'Chicken Biryani', 'price': 150, 'category': 'non-veg', 'icon': ''},
     {'id': 12, 'name': 'Mutton Curry', 'price': 200, 'category': 'non-veg', 'icon': ''},
     {'id': 13, 'name': 'Egg Roll', 'price': 60, 'category': 'non-veg', 'icon': ''},
-    {'id': 14 'name': 'Fish Fry', 'price': 180, 'category': 'non-veg', 'icon': ''},
+    {'id': 14, 'name': 'Fish Fry', 'price': 180, 'category': 'non-veg', 'icon': ''},
     {'id': 15, 'name': 'Chicken 65', 'price': 130, 'category': 'non-veg', 'icon': ''},
     {'id': 16, 'name': 'Butter Chicken', 'price': 220, 'category': 'non-veg', 'icon': '🥘'},
     {'id': 17, 'name': 'Chicken Tandoori', 'price': 280, 'category': 'non-veg', 'icon': '🍗'},
