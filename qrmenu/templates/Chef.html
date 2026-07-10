@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chef & Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f6f9; color: #333; display: flex; }
+        
+        /* Sidebar Design */
+        .sidebar { width: 260px; background: #2c3e50; color: white; min-height: 100vh; padding: 20px; position: fixed; }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 22px; color: #f39c12; }
+        .sidebar a { display: block; color: #bdc3c7; padding: 12px; text-decoration: none; border-radius: 5px; margin-bottom: 10px; font-weight: 600; }
+        .sidebar a:hover { background: #34495e; color: white; }
+        .logout-btn { background: #c0392b !important; color: white !important; text-align: center; margin-top: 40px; }
+
+        /* Main Content */
+        .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        /* Dashboard Stats Cards */
+        .stats-container { display: flex; gap: 20px; margin-bottom: 30px; }
+        .card { flex: 1; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: space-between; }
+        .card-inner h3 { color: #7f8c8d; font-size: 14px; text-transform: uppercase; margin-bottom: 5px; }
+        .card-inner p { font-size: 28px; font-weight: bold; color: #2c3e50; }
+        .card-icon { font-size: 40px; opacity: 0.3; }
+
+        /* Two Column Layout */
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .panel { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .panel h2 { font-size: 18px; margin-bottom: 15px; color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+
+        /* Order Cards for Chef */
+        .order-card { background: #fdfefe; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .order-header { display: flex; justify-content: space-between; font-weight: bold; color: #e67e22; margin-bottom: 10px; }
+        .order-items-list { margin: 10px 0; padding-left: 20px; font-size: 15px; }
+        .btn-accept { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+
+        /* Most Ordered List */
+        .top-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f1f1; }
+        .top-item-left { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .top-qty { background: #e67e22; color: white; padding: 2px 8px; border-radius: 20px; font-size: 12px; }
+
+        /* Data Table for History */
+        .table-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; text-align: left; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; color: #2c3e50; }
+        .status-badge { padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; }
+        .status-pending { background: #ffeaa7; color: #d63031; }
+        .status-completed { background: #badc58; color: #6ab04c; }
+        .btn-delete { background: #ff7675; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-delete:hover { background: #d63031; }
+    </style>
+</head>
+<body>
+
+    <!-- १. डावा सिदबार (Sidebar) -->
+    <div class="sidebar">
+        <h2>🏨 Admin Taj</h2>
+        <a href="#dashboard">📊 Dashboard</a>
+        <a href="#orders">👨‍🍳 Active Orders</a>
+        <a href="#history">📜 History Log</a>
+        <a href="/logout" class="logout-btn">🚪 Logout</a>
+    </div>
+
+    <!-- २. मुख्य भाग -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Dashboard Overview</h1>
+            <p id="live-time" style="font-weight: bold; color: #7f8c8d;"></p>
+        </div>
+
+        <!-- ३. मुख्य आकडेवारी (Stats Cards) -->
+        <div class="stats-container" id="dashboard">
+            <div class="card">
+                <div class="card-inner">
+                    <h3>Today's Revenue</h3>
+                    <p>₹{{ today_sales }}</p>
+                </div>
+                <div class="card-icon">💰</div>
+            </div>
+            <div class="card">
+                <div class="card-inner">
+                    <h3>Total Orders Today</h3>
+                    <p>{{ total_orders }}</p>
+                </div>
+                <div class="card-icon">📦</div>
+            </div>
+        </div>
+
+        <!-- ४. ग्रिड लेआउट (Active Orders + Most Ordered) -->
+        <div class="dashboard-grid">
+            <!-- प्रलंबित ऑर्डर्स (Chef Screen) -->
+            <div class="panel" id="orders">
+                <h2>👨‍🍳 New Active Orders (Pending)</h2>
+                {% if orders %}
+                    {% for order in orders %}
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span>Order #{{ order.order_id }} (Table {{ order.table_no }})</span>
+                            <span>₹{{ order.total }}</span>
+                        </div>
+                        <p style="font-size:13px; color:#7f8c8d;">Customer: {{ order.customer_name }} | {{ order.mobile }}</p>
+                        
+                        <ul class="order-items-list">
+                            {% for item in order.order_foods %}
+<li><strong>{{ item.item_name }}</strong> x {{ item.quantity }}</li>
+{% endfor %}
+
+                        </ul>
+                        
+                        <form action="/complete_order/{{ order.order_id }}" method="POST">
+                            <button type="submit" class="btn-accept" onclick="notifyUser('{{ order.mobile }}', '{{ order.order_id }}')">
+                                Accept & Prepare Done ✅
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                {% else  %}
+                    <p style="color:#999; text-align:center; padding: 20px;">सर्व ऑर्डर्स कम्प्लीट आहेत! नवीन ऑर्डरची वाट पाहत आहोत... 😴</p>
+                {% endif %}
+            </div>
+
+            <!-- सर्वाधिक विकले जाणारे पदार्थ (Most Ordered) -->
+            <div class="panel">
+                <h2>🔥 Most Ordered Menu Items</h2>
+                {% if most_ordered %}
+                    {% for menu in most_ordered %}
+                    <div class="top-item">
+                        <div class="top-item-left">
+                            <span>{{ menu.icon }}</span>
+                            <span>{{ menu.name }}</span>
+                        </div>
+                        <span class="top-qty">{{ menu.total_qty }} Sold</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color:#999; font-size:14px;">अजून कोणतीही विक्री झालेली नाही.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- ५. संपूर्ण ऑर्डर हिस्ट्री लॉग (With Easy Delete) -->
+        <div class="table-container" id="history">
+            <h2>📜 Complete Order History Log</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Table</th>
+                        <th>Customer</th>
+                        <th>Mobile</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in all_history %}
+                    <tr>
+                        <td>#{{ log.order_id }}</td>
+                        <td>Table {{ log.table_no }}</td>
+                        <td>{{ log.customer_name }}</td>
+                        <td>{{ log.mobile if log.mobile else '-' }}</td>
+                        <td style="font-weight: bold;">₹{{ log.total }}</td>
+                        <td>
+                            <span class="status-badge {% if log.status == 'Pending' %}status-pending{% else %}status-completed{% endif %}">
+                                {{ log.status }}
+                            </span>
+                        </td>
+                        <td style="font-size: 13px; color: #555;">{{ log.order_time }}</td>
+                        <td>
+                            <!-- डिलीट बटन -->
+                            <form action="/delete_order/{{ log.order_id }}" method="POST" style="display:inline;" onsubmit="return confirm('तुम्हाला ही ऑर्डर हिस्ट्रीमधून डिलीट करायची आहे का?');">
+                                <button type="submit" class="btn-delete">🗑️ Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ६. लाईव अलर्ट आणि टाइम स्क्रिप्ट -->
+    <script>
+        // लाईव्ह वेळ दाखवण्यासाठी
+        setInterval(() => {
+            document.getElementById('live-time').innerText = "Live: " + new Date().toLocaleTimeString();
+        }, 1000);
+
+        // शेफने बटण दाबल्यावर ब्राऊझरवर येणारा मेसेज (Notification Alert)
+        function notifyUser(mobile, orderId) {
+alert("ALERT SYSTÈM:\nOrder #" + orderId + " has been Accepted!\nNotification alert triggered for mobile: " + mobile);}

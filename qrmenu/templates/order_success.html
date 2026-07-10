@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Successful</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fff8f0; text-align: center; padding: 50px 20px; }
+        .success-card {
+            background: white; max-width: 500px; margin: 0 auto; padding: 40px 20px;
+            border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .icon { font-size: 70px; color: #28a745; margin-bottom: 20px; }
+        h1 { color: #333; margin-bottom: 10px; }
+        p { color: #666; font-size: 16px; margin-bottom: 8px; }
+        .total-box { background: #ffe8cc; color: #d9480f; font-weight: bold; font-size: 20px; padding: 15px; border-radius: 10px; margin: 20px 0; }
+        .btn {
+            display: inline-block; padding: 12px 25px; margin: 10px 5px;
+            font-weight: bold; text-decoration: none; border-radius: 5px; transition: 0.2s;
+        }
+        .btn-pdf { background: #dc3545; color: white; }
+        .btn-menu { background: #007bff; color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <div class="success-card">
+        <div class="icon">✅</div>
+        <h1>Order Successful!</h1>
+        <p>Your order has been sent to the kitchen..</p>
+        
+        <div class="total-box">
+            Order ID: #{{ order_id }} <br>
+            Total Bill: ₹{{ total }}
+        </div>
+        
+        <p>Table No: {{ table_no }}</p>
+        <p>Please wait a moment while your food is being prepared</p>
+        
+        <div style="margin-top: 30px;">
+            <!-- पीडीएफ बिल डाऊनलोड करण्याचे बटण -->
+            <a href="/download_pdf//{{ order_id }}" class="btn btn-pdf">📄 Download Bill PDF</a>
+            <!-- पुन्हा मेनूवर जाण्याचे बटण -->
+            <a href="/menu/{{ table_no }}" class="btn btn-menu">🍽️ Back to Menu</a>
+        </div>
+    </div>
+
+</body>
+</html>

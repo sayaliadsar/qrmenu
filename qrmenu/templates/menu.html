@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu - Table {{ table_id }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fff8f0; }
+        
+        .header { 
+            background: linear-gradient(135deg, #ff6b35, #f7931e); 
+            color: white; padding: 20px; text-align: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .header h1 { font-size: 32px; font-weight: 800; letter-spacing: 1px; }
+        .header p { opacity: 0.9; font-size: 14px; }
+        
+        .cart-float {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            background: #28a745; color: white; padding: 12px 18px;
+            border-radius: 50px; text-decoration: none; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+        }
+        
+        .container { padding: 15px; max-width: 600px; margin: 0 auto; }
+        
+        .search-box { margin: 20px 0; }
+        .search-box input {
+            width: 100%; padding: 15px; font-size: 16px;
+            border: 2px solid #ddd; border-radius: 50px; outline: none;
+        }
+        
+        .category-box { display: flex; gap: 15px; margin: 20px 0; }
+        .category-card {
+            flex: 1; padding: 20px; border-radius: 15px; text-align: center;
+            color: white; font-weight: bold; transition: 0.3s; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .veg-card { background: linear-gradient(135deg, #4CAF50, #2E7D32); }
+        .nonveg-card { background: linear-gradient(135deg, #F44336, #C62828); }
+        .active-cat { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.3); border: 3px solid #ff9800; }
+        
+        .food-list { margin-top: 10px; }
+        .food-item {
+            background: white; margin: 12px 0; padding: 15px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .food-left { display: flex; align-items: center; gap: 15px; }
+        .food-icon { font-size: 35px; }
+        .food-name { font-size: 18px; font-weight: 600; color: #333; }
+        .food-price { color: #ff6b35; font-weight: bold; font-size: 16px; }
+        
+        .qty-badge {
+            background: #ff9800; color: white; padding: 2px 8px; 
+            border-radius: 10px; font-size: 12px; font-weight: bold; margin-left: 5px;
+        }
+
+        .add-btn { background: #007bff; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .cancel-btn { background: #dc3545; color: white; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+        .hidden { display: none !important; }
+        
+        .pdf-btn {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #6c757d; color: white; padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-weight: bold;
+        }
+        .hotel-footer {
+            background: #f4ebe1; color: #4a3f35; padding: 30px 20px; text-align: center;
+            margin-top: 50px; border-top-left-radius: 25px; border-top-right-radius: 25px;
+            font-size: 14px; box-shadow: 0 -4px 15px rgba(0,0,0,0.02);
+            border-top: 1px solid #e6dacb;
+        }
+        .footer-title { color: #d35400; font-size: 18px; font-weight: bold; margin-bottom: 12px; letter-spacing: 0.5px; }
+        .footer-info { margin-bottom: 8px; opacity: 0.9; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500; }
+        .footer-info i { width: 16px; text-align: center; }
+        .footer-info a { color: #4a3f35; text-decoration: none; }
+        .footer-copyright { font-size: 11px; margin-top: 20px; opacity: 0.6; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 15px; }
+        
+        .hidden-admin-link { display: inline-block; color: #b5a492 !important; text-decoration: none; font-size: 10px; cursor: default; margin-top: 5px; }
+         
+        
+    </style>
+</head>
+<body>
+   
+    <a href="/cart" class="cart-float">🛒 Cart</a>
+    <div class="header">
+        <h1>HOTEL TAJ</h1>
+        <p>Table {{ table_id }} | Welcome!</p>
+    </div>
+     
+            
+</script>
+<script type="text/javascript" src="https://google.com"></script>
+
+</script>
+<script type="text/javascript" src="//://google.com"></script>
+
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Search food items..." onkeyup="filterMenu()">
+        </div>
+    
+        <!-- Category Cards -->
+        <div class="category-box">
+            <div id="vegTab" class="category-card veg-card" onclick="selectCategory('veg')">
+                <div style="font-size: 40px;">🥗</div>
+                <div>VEG</div>
+            </div>
+            <div id="nonvegTab" class="category-card nonveg-card" onclick="selectCategory('non-veg')">
+                <div style="font-size: 40px;">🍗</div>
+                <div>NON-VEG</div>
+            </div>
+        </div>
+
+        <!-- Food List -->
+        <div class="food-list" id="foodList">
+            {% for item in menu_items %}
+            <div class="food-item" data-name="{{ item.name.lower() }}" data-category="{{ item.category }}">
+                <div class="food-left">
+                    <div class="food-icon">{{ item.icon }}</div>
+                    <div>
+                        <div class="food-name">
+                            {{ item.name }}
+                            {% if cart and cart[item.id|string] %}
+                                <span class="qty-badge">x{{ cart[item.id|string] }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="food-price">₹{{ item.price }}</div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <!-- Add Button -->
+                    <a href="/add_to_cart/{{ item.id }}" class="add-btn">+ Add</a>
+                    
+                    <!-- Cancel Button -->
+                    {% if cart and cart[item.id|string] %}
+                    <a href="/cancel_item/{{ item.id }}" class="cancel-btn" onclick="return confirm('हा आयटम कमी करायचा आहे का?');">
+                        ❌ Cancel
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a href="javascript:window.print()" class="pdf-btn">📄 Download Menu PDF</a>
+     <footer class="hotel-footer">
+        <div class="footer-title">HOTEL SWAMI </div>
+        <div class="footer-info"><i class="fa-solid fa-location-dot" style="color: #e74c3c;"></i> Main Road, Near Bus Stand, Malshiras, Maharashtra.</div>
+        <div class="footer-info"><i class="fa-solid fa-phone" style="color: #2ecc71;"></i> <a href="tel:+919876543210">+91 98765 43210</a></div>
+        <div class="footer-info"><i class="fa-solid fa-clock" style="color: #f1c40f;"></i> Time: 11:00 AM to 11:00 PM</div>
+        
+        <div class="footer-copyright">
+           
+            
+        </div>
+    </footer>
+
+    <script>
+        // १. युझरची कॅटेगरी ब्राउझर मेमरीमध्ये लॉक करणे
+        function selectCategory(cat) {
+            localStorage.setItem('hotel_menu_cat', cat);
+            filterMenu();
+        }
+
+        // २. फिल्टर फंक्शन (पेज रिफ्रेश झाले तरी चालू राहणारे)
+        function filterMenu() {
+            let currentCat = localStorage.getItem('hotel_menu_cat') || 'veg';
+            let searchVal = document.getElementById('searchInput').value.toLowerCase();
+            let items = document.querySelectorAll('.food-item');
+
+            // बटनांची स्टाईल बदलणे
+            if (currentCat === 'veg') {
+                document.getElementById('vegTab').classList.add('active-cat');
+                document.getElementById('nonvegTab').classList.remove('active-cat');
+            } else {
+                document.getElementById('nonvegTab').classList.add('active-cat');
+                document.getElementById('vegTab').classList.remove('active-cat');
+            }
+
+            // आयटम्स दाखवणे किंवा लपवणे
+            items.forEach(item => {
+                let cat = item.getAttribute('data-category');
+                let name = item.getAttribute('data-name');
+
+                if (cat === currentCat && name.includes(searchVal)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // पेज लोड झाल्यावर रन होणारे फंक्शन
+        window.onload = function() {
+            filterMenu();
+        };
+
+       
+        
+</script>
+<script type="text/javascript" src="//://google.com"></script>
+
+    </script>
+</body>
+</html>

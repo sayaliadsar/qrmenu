@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart - Table {{ table_id }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fff8f0; padding: 20px 10px; }
+        
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; font-size: 24px; }
+        
+        .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; }
+        .item-details { display: flex; align-items: center; gap: 12px; }
+        .item-icon { font-size: 25px; }
+        .item-name { font-weight: 600; color: #333; }
+        .item-meta { font-size: 14px; color: #666; margin-top: 3px; }
+        .item-total { font-weight: bold; color: #ff6b35; }
+        
+        .total-section { display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin: 25px 0; padding-top: 15px; border-top: 2px dashed #ddd; color: #333; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #555; font-size: 14px; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; outline: none; font-size: 16px; }
+        .form-group input:focus { border-color: #ff6b35; }
+        
+        .btn-order { background: #28a745; color: white; width: 100%; padding: 15px; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(40,167,69,0.3); }
+        .btn-order:hover { background: #218838; }
+        
+        .btn-back { display: block; text-align: center; text-decoration: none; color: #007bff; font-weight: bold; margin-top: 20px; font-size: 16px; }
+        .empty-msg { text-align: center; color: #666; padding: 40px 0; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🛒 Your Cart (Table {{ table_id }})</h2>
+
+    {% if cart_items %}
+        <!-- १. कार्ट मधील आयटम्सची लिस्ट -->
+        <div class="cart-list">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="item-details">
+                    <div class="item-icon">{{ item.icon }}</div>
+                    <div>
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-meta">₹{{ item.price }} x {{ item.qty }}</div>
+                    </div>
+                </div>
+                <div class="item-total">₹{{ item.total }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- २. एकूण बिल (Grand Total) -->
+        <div class="total-section">
+            <span>Grand Total:</span>
+            <span>₹{{ total }}</span>
+        </div>
+
+        <!-- ३. ऑर्डर सबमिट करण्याचा फॉर्म (माहिती भरणे बंधनकारक केले आहे) -->
+<form action="/place_order" method="POST">
+    <div class="form-group">
+        <label>Your Name (Required):</label>
+        <!-- required जोडले आहे जेणेकरून नाव टाकणे गरजेचे होईल -->
+        <input type="text" name="customer_name" placeholder="type your name..." required>
+    </div>
+  
+</script>
+<script type="text/javascript" src="https://google.com"></script>
+
+</script>
+<script type="text/javascript" src="//://google.com"></script>
+        
+    <div class="form-group">
+        <label>Mobile Number (Required - 10 Digits):</label>
+        <!-- required आणि pattern जोडले आहे जेणेकरून फक्त १० अंकी नंबरच स्वीकारला जाईल -->
+        <input type="tel" name="mobile" placeholder="Please enter your 10-digit mobile number." 
+               pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number." required>
+    </div>
+    
+    <button type="submit" class="btn-order">🚀 Place Order</button>
+</form>
+
+
+    {% else %}
+        <div class="empty-msg">
+            <p>Empty cart! Go back to the menu to order. 😊</p>
+        </div>
+    {% endif %}
+
+    <!-- पुन्हा मेनूवर जाण्यासाठी बटण -->
+    <a href="/menu/{{ table_id }}" class="btn-back">🔙 Back to Menu</a>
+</div>
+
+</body>
+</html>
